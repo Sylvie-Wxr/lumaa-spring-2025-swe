@@ -16,6 +16,10 @@ function Tasks() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [titleError, setTitleError] = useState('');
+    const [editingTask, setEditingTask] = useState<Task | null>(null);
+    const [dialogTask, setDialogTask] = useState({ title: '', description: '' });
 
     // Fetch tasks from backend
     useEffect(() => {
@@ -76,6 +80,85 @@ function Tasks() {
         navigate('/'); // Navigate to login page
     };
 
+    const handleOpenDialog = (task?: Task) => {
+        if (task) {
+            setEditingTask(task);
+            setDialogTask({ title: task.title, description: task.description });
+        } else {
+            setEditingTask(null);
+            setDialogTask({ title: '', description: '' });
+        }
+        setOpenDialog(true);
+        setTitleError('');
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+        setTitleError('');
+        setEditingTask(null);
+        setDialogTask({ title: '', description: '' });
+    };
+
+    const handleUpdateTask = async () => {
+        if (!dialogTask.title.trim()) {
+            setTitleError('The title is required');
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5120/tasks/${editingTask!.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    title: dialogTask.title,
+                    description: dialogTask.description,
+                    isCompleted: editingTask!.isCompleted
+                })
+            });
+
+            if (response.ok) {
+                const updatedTask = await response.json();
+                setTasks(prev => prev.map(task => 
+                    task.id === editingTask!.id ? updatedTask : task
+                ));
+                handleCloseDialog();
+            }
+        } catch (error) {
+            console.error('Failed to update task:', error);
+        }
+    };
+
+    const handleAddTask = async () => {
+        if (!dialogTask.title.trim()) {
+            setTitleError('The title is required');
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:5120/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(dialogTask)
+            });
+
+            if (response.ok) {
+                const task = await response.json();
+                setTasks(prev => [task, ...prev]);
+                handleCloseDialog();
+            }
+        } catch (error) {
+            console.error('Failed to add task:', error);
+        }
+    };
+
     return (
         
         <div className="tasks-container">
@@ -94,7 +177,7 @@ function Tasks() {
             
             <Button 
                 variant="contained" 
-                onClick={() => {}} 
+                onClick={() => handleOpenDialog()} 
                 className="add-task-button"
             >
                 Add New Task
@@ -133,7 +216,7 @@ function Tasks() {
                                     <TableCell className="title-cell">{task.title}</TableCell>
                                     <TableCell className="description-cell">{task.description}</TableCell>
                                     <TableCell className="actions-cell" align="right">
-                                        <Button onClick={() => {}}>Edit</Button>
+                                        <Button onClick={() => handleOpenDialog(task)}>Edit</Button>
                                         <Button 
                                             color="error" 
                                             onClick={() => {}}
@@ -158,6 +241,58 @@ function Tasks() {
                     rowsPerPageOptions={[5, 10, 25]}
                 />
             </TableContainer>
+
+            <Dialog 
+                open={openDialog} 
+                onClose={handleCloseDialog}
+                className="add-task-dialog"
+            >
+                <div className="dialog-content">
+                    <Typography variant="h6" component="h2">
+                        Title
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        value={dialogTask.title}
+                        onChange={(e) => {
+                            setDialogTask(prev => ({ ...prev, title: e.target.value }));
+                            setTitleError('');
+                        }}
+                        margin="normal"
+                        error={!!titleError}
+                        helperText={titleError}
+                    />
+
+                    <Typography variant="h6" component="h2">
+                        Description
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        multiline
+                        rows={4}
+                        value={dialogTask.description}
+                        onChange={(e) => setDialogTask(prev => ({ ...prev, description: e.target.value }))}
+                        margin="normal"
+                    />
+
+                    <div className="dialog-actions">
+                        <Button 
+                            variant="contained"
+                            onClick={editingTask ? handleUpdateTask : handleAddTask}
+                            className="add-button"
+                        >
+                            {editingTask ? 'Update task' : 'Add task'}
+                        </Button>
+                        <Button 
+                            variant="contained"
+                            onClick={handleCloseDialog}
+                            className="cancel-button"
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+                </div>
+            </Dialog>
         </div>
     )
 }

@@ -97,3 +97,38 @@
 .task-table tbody .actions-cell {
     text-align: right !important;
 }
+
+.add-task-dialog .dialog-content {
+    padding: 2rem;
+    min-width: 500px;
+}
+
+.dialog-content .MuiTextField-root {
+    margin: 1rem 0;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.dialog-actions .add-button {
+    background-color: #4285f4 !important;
+    text-transform: none !important;
+}
+
+.dialog-actions .cancel-button {
+    background-color: #9e9e9e !important;
+    text-transform: none !important;
+}
+
+.dialog-content h2 {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.dialog-content .MuiFormHelperText-root {
+    color: #d32f2f;
+    margin-left: 0;
+}
