@@ -8,8 +8,8 @@ https://drive.google.com/file/d/1KtKggALHfXMV7tAcTscFXPaE91vrBAtw/view?usp=drive
 ### **Clone & Checkout the Branch**
 If this branch is **not merged**, first checkout the correct branch:
 ```sh
-git checkout sylvie-wu/task-manager
 cd lumaa-spring-2025-swe
+git checkout sylvie-wu/task-manager
 ```
 
 ---
