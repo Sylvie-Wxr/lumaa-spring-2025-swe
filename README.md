@@ -77,8 +77,8 @@ npm run dev
 The frontend should now be running at **`http://localhost:5173`** (or another port if 5173 is occupied).
 
 ---
-## ** Testing API Endpoints in Postman**
-### **1️. Register a New User**
+## **Testing API Endpoints in Postman**
+### 1️. Register a New User
 ```http
 POST http://localhost:5120/auth/register
 Content-Type: application/json
@@ -90,7 +90,7 @@ Content-Type: application/json
 }
 ```
 
-### **2️. Login to Get JWT Token**
+### 2️. Login to Get JWT Token
 ```http
 POST http://localhost:5120/auth/login
 Content-Type: application/json
@@ -108,7 +108,7 @@ Response:
 }
 ```
 
-### **3️. Create a Task (Authenticated)**
+### 3️. Create a Task (Authenticated)
 ```http
 POST http://localhost:5120/tasks
 Authorization: Bearer your_generated_jwt_token
@@ -121,7 +121,7 @@ Content-Type: application/json
 }
 ```
 
-### **4️. Get All Tasks**
+### 4️. Get All Tasks
 ```http
 GET http://localhost:5120/tasks
 Authorization: Bearer your_generated_jwt_token
@@ -147,4 +147,4 @@ npx prisma generate
 ```
 
 ## Salary Expection
-I can do both unpaid or paid from $20-30/hr as listed in the job description, it will be about $1732 - 2598.
+I can do both unpaid or paid from $20-30/hr as listed in the job description, so it will be about $1732 - 2598 if paid.
