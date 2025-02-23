@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    /* Specify the JavaScript language version and module system */
+    "target": "ES6",
+    "module": "CommonJS",
+    /* Set up paths for compilation */
+    "rootDir": "./src",
+    "outDir": "./dist",
+    /* Ensure proper handling of imports */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Enable strict type checking */
+    "strict": true,
+    /* Improve compatibility and performance */
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
