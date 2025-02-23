@@ -1,4 +1,7 @@
-# Task Manager API
+# Task Manager APP
+
+## Live Demo
+https://drive.google.com/file/d/1KtKggALHfXMV7tAcTscFXPaE91vrBAtw/view?usp=drive_link
 
 ## How to Run the Project
 
@@ -143,4 +146,5 @@ Then restart the server.
 npx prisma generate
 ```
 
-
+## Salary Expection
+I can do both unpaid or paid from $20-30/hr as listed in the job description, it will be about $1732 - 2598.
