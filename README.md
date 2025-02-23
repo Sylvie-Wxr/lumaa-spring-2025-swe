@@ -1,119 +1,146 @@
-# Full-Stack Coding Challenge
+# Task Manager API
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+## How to Run the Project
 
----
-
-## Overview
-
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
-
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
-
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
+### **Clone & Checkout the Branch**
+If this branch is **not merged**, first checkout the correct branch:
+```sh
+git checkout sylvie-wu/task-manager
+```
 
 ---
+## **Backend Setup** (Node.js + Express + Prisma + PostgreSQL)
+### 1️. Navigate to the Backend Directory
+```sh
+cd server
+```
 
-## Requirements
+### 2️. Install Dependencies
+```sh
+npm install
+```
 
-### 1. Authentication
+### 3️. Set Up Environment Variables
+- **Edit `.env.example` and replace it with your database credentials & JWT secret.**
+- Example values:
+  ```env
+  DATABASE_URL="postgresql://xinruiwu:managetask@localhost:5432/taskmanager?schema=public"
+  JWT_SECRET="d4f1a8b927c3e5f6d29a7e3f14b2c9d85e6a41d37c5f7d2b39e6f8a21c5d7e8f"
+  ```
+- Then, **create the `.env` file**:
+  ```sh
+  cp .env.example .env
+  ```
 
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
+### 4️. Apply Database Migrations
+```sh
+npx prisma migrate dev
+```
 
-### 2. Backend (Node.js or Nest.js)
+### 5️. Generate Prisma Client
+```sh
+npx prisma generate
+```
 
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
+### 6️. Start the Backend Server
+```sh
+npm run dev
+```
 
-### 3. Frontend (React + TypeScript)
-
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+### 7️. (Optional) Check Database Visually
+```sh
+npx prisma studio
+```
+This will open a **GUI** to view and manage database records.
 
 ---
+## **Frontend Setup** (React + TypeScript + Vite)
+### 1️. Open Another Terminal
+Navigate to the frontend directory:
+```sh
+cd client
+```
 
-## Deliverables
+### 2️. Install Dependencies
+```sh
+npm install
+```
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
+### 3️. Start the Frontend Server
+```sh
+npm run dev
+```
 
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+The frontend should now be running at **`http://localhost:5173`** (or another port if 5173 is occupied).
 
 ---
+## ** Testing API Endpoints in Postman**
+### **1️. Register a New User**
+```http
+POST http://localhost:5120/auth/register
+Content-Type: application/json
+```
+```json
+{
+  "username": "testuser",
+  "password": "password123"
+}
+```
 
-## Evaluation Criteria
+### **2️. Login to Get JWT Token**
+```http
+POST http://localhost:5120/auth/login
+Content-Type: application/json
+```
+```json
+{
+  "username": "testuser",
+  "password": "password123"
+}
+```
+Response:
+```json
+{
+  "token": "your_generated_jwt_token"
+}
+```
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
+### **3️. Create a Task (Authenticated)**
+```http
+POST http://localhost:5120/tasks
+Authorization: Bearer your_generated_jwt_token
+Content-Type: application/json
+```
+```json
+{
+  "title": "First Task",
+  "description": "This is my first task"
+}
+```
 
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
+### **4️. Get All Tasks**
+```http
+GET http://localhost:5120/tasks
+Authorization: Bearer your_generated_jwt_token
+```
 
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
+---
+## **Common Issues & Fixes**
+### **Error: `DATABASE_URL is not defined in environment variables`**
+ **Fix:** Ensure `.env` exists and contains `DATABASE_URL`. Run:
+```sh
+echo $DATABASE_URL
+```
+If it's empty, try reloading environment variables:
+```sh
+source .env
+```
+Then restart the server.
 
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
+###  **Error: `Error: Cannot find module '.prisma/client'`**
+**Fix:** Run:
+```sh
+npx prisma generate
+```
 
-Good luck, and we look forward to your submission!
+
