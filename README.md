@@ -147,4 +147,4 @@ npx prisma generate
 ```
 
 ## Salary Expection
-I can do both unpaid or paid from $20-30/hr as listed in the job description, so it will be about $1732 - 2598 if paid.
+I can do both unpaid or paid from $20-30/hr as listed in the job description, so it will be about $1732 - 2598 per month if paid.
