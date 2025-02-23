@@ -13,17 +13,17 @@ git checkout sylvie-wu/task-manager
 
 ---
 ## **Backend Setup** (Node.js + Express + Prisma + PostgreSQL)
-### 1️. Navigate to the Backend Directory
+### 1. Navigate to the Backend Directory
 ```sh
 cd server
 ```
 
-### 2️. Install Dependencies
+### 2. Install Dependencies
 ```sh
 npm install
 ```
 
-### 3️. Set Up Environment Variables
+### 3. Set Up Environment Variables
 - **Edit `.env.example` and replace it with your database credentials & JWT secret.**
 - Example values:
   ```env
@@ -35,22 +35,22 @@ npm install
   cp .env.example .env
   ```
 
-### 4️. Apply Database Migrations
+### 4. Apply Database Migrations
 ```sh
 npx prisma migrate dev
 ```
 
-### 5️. Generate Prisma Client
+### 5. Generate Prisma Client
 ```sh
 npx prisma generate
 ```
 
-### 6️. Start the Backend Server
+### 6. Start the Backend Server
 ```sh
 npm run dev
 ```
 
-### 7️. (Optional) Check Database Visually
+### 7. (Optional) Check Database Visually
 ```sh
 npx prisma studio
 ```
@@ -58,18 +58,18 @@ This will open a **GUI** to view and manage database records.
 
 ---
 ## **Frontend Setup** (React + TypeScript + Vite)
-### 1️. Open Another Terminal
+### 1. Open Another Terminal
 Navigate to the frontend directory:
 ```sh
 cd client
 ```
 
-### 2️. Install Dependencies
+### 2. Install Dependencies
 ```sh
 npm install
 ```
 
-### 3️. Start the Frontend Server
+### 3. Start the Frontend Server
 ```sh
 npm run dev
 ```
@@ -78,7 +78,7 @@ The frontend should now be running at **`http://localhost:5173`** (or another po
 
 ---
 ## **Testing API Endpoints in Postman**
-### 1️. Register a New User
+### 1. Register a New User
 ```http
 POST http://localhost:5120/auth/register
 Content-Type: application/json
@@ -90,7 +90,7 @@ Content-Type: application/json
 }
 ```
 
-### 2️. Login to Get JWT Token
+### 2. Login to Get JWT Token
 ```http
 POST http://localhost:5120/auth/login
 Content-Type: application/json
@@ -108,7 +108,7 @@ Response:
 }
 ```
 
-### 3️. Create a Task (Authenticated)
+### 3. Create a Task (Authenticated)
 ```http
 POST http://localhost:5120/tasks
 Authorization: Bearer your_generated_jwt_token
@@ -121,7 +121,7 @@ Content-Type: application/json
 }
 ```
 
-### 4️. Get All Tasks
+### 4. Get All Tasks
 ```http
 GET http://localhost:5120/tasks
 Authorization: Bearer your_generated_jwt_token
