@@ -9,6 +9,7 @@ https://drive.google.com/file/d/1KtKggALHfXMV7tAcTscFXPaE91vrBAtw/view?usp=drive
 If this branch is **not merged**, first checkout the correct branch:
 ```sh
 git checkout sylvie-wu/task-manager
+cd lumaa-spring-2025-swe
 ```
 
 ---
@@ -50,7 +51,7 @@ npx prisma generate
 npm run dev
 ```
 
-### 7. (Optional) Check Database Visually
+### 7. (Optional) Check Database Visually in another terminal
 ```sh
 npx prisma studio
 ```
