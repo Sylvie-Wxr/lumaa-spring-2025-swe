@@ -159,6 +159,32 @@ function Tasks() {
         }
     };
 
+    const handleDeleteTask = async (taskId: number) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5120/tasks/${taskId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                // Remove task from state
+                setTasks(prev => prev.filter(task => task.id !== taskId));
+                
+                // Adjust page if necessary
+                const newTotalTasks = tasks.length - 1;
+                const newTotalPages = Math.ceil(newTotalTasks / rowsPerPage);
+                if (page >= newTotalPages) {
+                    setPage(Math.max(0, newTotalPages - 1));
+                }
+            }
+        } catch (error) {
+            console.error('Failed to delete task:', error);
+        }
+    };
+
     return (
         
         <div className="tasks-container">
@@ -219,7 +245,7 @@ function Tasks() {
                                         <Button onClick={() => handleOpenDialog(task)}>Edit</Button>
                                         <Button 
                                             color="error" 
-                                            onClick={() => {}}
+                                            onClick={() => handleDeleteTask(task.id)}
                                         >
                                             Delete
                                         </Button>
