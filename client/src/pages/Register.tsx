@@ -70,7 +70,7 @@ function Register() {
           label="Password"
           type="password"
           id="password"
-          autoComplete="new-password"
+          autoComplete="off"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

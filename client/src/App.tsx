@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Tasks from './pages/Tasks';
 
 
 // Simpler theme configuration
@@ -22,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
+          <Route path="/tasks" element={<Tasks />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
